@@ -8,4 +8,217 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+// For NextAuth.js compatibility & Email/Google Auth
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  image         String?   // Profile photo URL from Supabase bucket
+  dateOfBirth   DateTime // Important for eligibility
+  aadhaarNumber String   @unique // For Aadhaar verification
+  isAadhaarVerified Boolean @default(false)
+  personalInfo  PersonalInfo?
+  academicRecords AcademicRecord[]
+  skills        Skill[]
+  certifications Certification[]
+  projects      Project[]
+  achievements  Achievement[]
+  fileUploads   FileUpload[]
+  preference    Preference?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  profileStatus ProfileStatus @default(PENDING) // Tracks overall form completion
+}
+
+// User Profile Models (All connected to User.id)
+model PersonalInfo {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gender              Gender?
+  mobileNumber        String
+  altMobileNumber     String?
+  linkedInUrl         String?
+  githubUrl           String?
+  permanentAddress    String
+  permanentPincode    String
+  currentAddress      String?
+  currentPincode      String?
+  category            Category
+  hasDisability       Boolean? @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model AcademicRecord {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level       AcademicLevel
+  schoolName  String
+  board       String
+  yearOfPassing Int
+  percentage  Float?
+  cgpa        Float?
+  backlogs    Boolean? @default(false)
+  // For UG/PG
+  collegeName String?
+  university  String?
+  branch      String?
+  currentYear Int?
+  currentSem  Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Skill {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name   String // Custom skill name
+  category SkillCategory
+}
+
+model Certification {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  startDate   DateTime
+  endDate     DateTime?
+  certificateUrl String? // URL from Supabase bucket
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  techStack   String[]
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Achievement {
+  id    String @id @default(cuid())
+  userId String
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  description String
+  certificationUrl String?
+  name String 
+  date DateTime
+}
+
+model FileUpload {
+  id         String @id @default(cuid())
+  userId     String
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       UploadType
+  fileUrl    String // URL from Supabase bucket
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Preference {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  internshipMode   InternshipMode
+  preferredLocation String   // Could be refined to link to a master Location table
+  sectorOfInterest Sector[] // Using an enum for sectors
+  languagesKnown   String[] // e.g., ["Hindi", "English"]
+  willingToRelocate Boolean @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+// JOB POSTING Model (Posted by Admin/Companies)
+model JobPosting {
+  id                 String   @id @default(cuid())
+  companyName        String
+  jobTitle           String
+  skillsRequired     String[] // Could also be a relation to a master Skills table
+  location           String
+  mode               InternshipMode
+  jobDescription     String
+  specialRequirements String?
+  duration           String   // e.g., "3 Months"
+  type               String   // e.g., "SDE", "Data Science"
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// ===== ENUMS =====
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum Category {
+  GENERAL
+  OBC
+  SC
+  ST
+  OTHER
+}
+
+enum AcademicLevel {
+  TENTH
+  TWELFTH
+  DIPLOMA
+  UG
+  PG
+  OTHER
+}
+
+enum SkillCategory {
+  TECHNICAL
+  SOFT_SKILLS
+  LANGUAGE
+  TOOL
+}
+
+enum UploadType {
+  PROFILE_PHOTO
+  SIGNATURE
+  TENTH_MARKSHEET
+  TWELFTH_MARKSHEET
+  COLLEGE_ID
+  DEGREE
+  OTHER
+}
+
+enum InternshipMode {
+  OFFLINE
+  HYBRID
+  VIRTUAL
+}
+
+enum Sector {
+  IT
+  FINANCE
+  HEALTHCARE
+  EDUCATION
+  AGRICULTURE
+  DESIGN
+  MARKETING
+  CORE_ENGINEERING
+  HUMAN_RESOURCES
+  OTHER
+}
+
+enum ProfileStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  VERIFIED
+  REJECTED
+}
         
