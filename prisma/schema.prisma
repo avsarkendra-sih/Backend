@@ -12,11 +12,12 @@ datasource db {
 // For NextAuth.js compatibility & Email/Google Auth
 model User {
   id            String    @id @default(cuid())
+  password      String
   name          String
   email         String    @unique
   image         String?   // Profile photo URL from Supabase bucket
   dateOfBirth   DateTime // Important for eligibility
-  aadhaarNumber String   @unique // For Aadhaar verification
+  aadhaarNumber String?   @unique// For Aadhaar verification
   isAadhaarVerified Boolean @default(false)
   personalInfo  PersonalInfo?
   academicRecords AcademicRecord[]
