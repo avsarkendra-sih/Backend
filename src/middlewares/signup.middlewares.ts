@@ -10,5 +10,6 @@ export default async function signMiddleware(req:Request,res:Response,next:NextF
    if(!verification){
         throw new ApiError(408,"unauthorized access")
    }
+   console.log(res);
    next();
 }
