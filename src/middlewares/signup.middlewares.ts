@@ -1,6 +1,6 @@
 import type{ Request,Response,NextFunction } from "express";
 import jwt from "jsonwebtoken"
-import { ApiError } from "../utils/apiError.js";
+import { ApiError } from "../utils/apiError.ts";
 export default async function signMiddleware(req:Request,res:Response,next:NextFunction){
     const token=req.headers["authorization"]?.split("Bearer ")[1];
     if(!token){
