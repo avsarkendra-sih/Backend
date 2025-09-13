@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction, RequestHandler } from "express";
+import type { Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { prisma } from "../config/db.js";
 import { ApiError } from "../utils/apiError.js";
@@ -11,7 +11,7 @@ interface loginSchema{
     email:string,
     password:string
 }
-const authController=asyncHandler(async (req:Request<{}, {}, loginSchema>,res:Response,next:NextFunction)=>{
+const authController=asyncHandler(async (req:Request<{}, {}, loginSchema>,res:Response)=>{
     const {email,password}=req.body;
     const user= await prisma.user.findUnique({
         where: {
@@ -21,7 +21,7 @@ const authController=asyncHandler(async (req:Request<{}, {}, loginSchema>,res:Re
     if(!user){
         throw new ApiError(404,"User doesn't registered");
     }
-    const isPasswordCorrect=await bcrypt.compare(password,user.password);
+    const isPasswordCorrect=await bcrypt.compare(password,user.password!);
     if(!isPasswordCorrect){
         throw new ApiError(414,"Incorrect password entered");
     }

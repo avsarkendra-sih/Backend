@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction, RequestHandler } from "express";
+import type { Request, Response} from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { prisma } from "../config/db.js";
 import { ApiError } from "../utils/apiError.js";
@@ -8,29 +8,30 @@ interface SignupBody {
       email: string;
       password: string;
       dateOfBirth:string;
+      aadhaarNumber:string;
 }
 
-const signController=asyncHandler(async (req:Request<{}, {}, SignupBody>,res:Response,next:NextFunction)=>{
+const signController=asyncHandler(async (req:Request,res:Response)=>{
    try {
-     const {name,email,password,dateOfBirth}=req.body;
-      if ([name, email, password, dateOfBirth].some((field) => field?.trim() === "")) {
+     const user_data:SignupBody=req.body;
+      if ([user_data.name, user_data.email, user_data.password, user_data.dateOfBirth,user_data.aadhaarNumber].some((field) => field?.trim() === "")) {
          throw new ApiError(400, "All fields are required");
      } 
      const existedUser = await prisma.user.findUnique({
      where: {
-         email
+        email:user_data.email
      }
  });
      if(existedUser){
          throw new ApiError(404,"email already registered");
      }
-     const hashedpassword:string=await bcrypt.hash(password,10);
+     const hashedpassword:string=await bcrypt.hash(user_data.password,10);
      const user = await prisma.user.create({
      data: {
-         name,
-         email,
+        name:user_data.name,
+         email:user_data.email,
          password:hashedpassword,
-          dateOfBirth: new Date(dateOfBirth)
+          dateOfBirth: new Date(user_data.dateOfBirth)
      }
  
  });
@@ -47,7 +48,6 @@ const signController=asyncHandler(async (req:Request<{}, {}, SignupBody>,res:Res
    } catch (error) {
      throw new ApiError(501,"Internal Server error in signup controller");
    }
-
 
 })
 
