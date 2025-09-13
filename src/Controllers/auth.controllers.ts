@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { prisma } from "../config/db.js";
-import { ApiError } from "../utils/apiError.js";
+import { asyncHandler } from "../utils/asyncHandler.ts";
+import { prisma } from "../config/db.ts";
+import { ApiError } from "../utils/apiError.ts";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv"
 dotenv.config();

@@ -1,10 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 
-import signupRoutes from "./Routes/signup.routes.js"
-import authRoutes from "./Routes/auth.routes.js"
-import jobOperation from "./Routes/job.routes.js"
-import oauth from "./Routes/oauth.routes.js"
+import signupRoutes from "./Routes/signup.routes.ts"
+import authRoutes from "./Routes/auth.routes.ts"
+import jobOperation from "./Routes/job.routes.ts"
+import oauth from "./Routes/oauth.routes.ts"
 
 dotenv.config();
 
