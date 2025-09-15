@@ -2,6 +2,7 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
+    
     "rootDir": "./src",
     "outDir": "./dist",
 
@@ -40,7 +41,11 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
+<<<<<<< HEAD
     "allowImportingTsExtensions":true,
+=======
+    "allowImportingTsExtensions": true ,
+>>>>>>> 222ff8d8a571eec3055de47039da68539ec5b5a2
     "noEmit": true
   }
 }
