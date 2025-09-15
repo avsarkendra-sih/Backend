@@ -1,7 +1,7 @@
 import type{ Request, Response } from "express";
 import { prisma } from "../config/db.ts";
 import { InternshipMode,JobType, Prisma } from "@prisma/client";
-import { ApiError } from "../utils/apiError.ts";
+
 
 interface JobInput {
   companyName: string;
@@ -62,7 +62,7 @@ export const createJob = async (req: Request, res: Response) => {
 //     res.status(500).json({ error: "Failed to fetch jobs" });
 //   }
 // };
-export const getJobs = async (req: Request, res: Response) => {
+export const getJobs = async ( res: Response) => {
   try {
     // Fetch all job postings from the database
     const jobs = await prisma.jobPosting.findMany({
