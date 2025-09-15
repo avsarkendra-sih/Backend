@@ -31,35 +31,56 @@ export const createJob = async (req: Request, res: Response) => {
   }
 };
 
+// export const getJobs = async (req: Request, res: Response) => {
+//   try {
+//     const { location, jobType, mode } = req.query;
+//     if(!location && !jobType && !mode){
+//         throw new ApiError(404,"fields not satisfied");
+//     }
+//  const whereClause: Prisma.JobPostingWhereInput = {};
+    
+//     if (location) {
+//       whereClause.location = { equals: String(location) };
+//     }
+    
+//     if (jobType) {
+//       whereClause.jobType = { equals: jobType as JobType };
+//     }
+    
+//     if (mode) {
+//       whereClause.mode = { equals: mode as InternshipMode };
+//     }
+
+//     const jobs = await prisma.jobPosting.findMany({
+//       where: whereClause,
+//       orderBy: { createdAt: "desc" },
+//     });
+
+//     res.json(jobs);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Failed to fetch jobs" });
+//   }
+// };
 export const getJobs = async (req: Request, res: Response) => {
   try {
-    const { location, jobType, mode } = req.query;
-    if(!location && !jobType && !mode){
-        throw new ApiError(404,"fields not satisfied");
-    }
- const whereClause: Prisma.JobPostingWhereInput = {};
-    
-    if (location) {
-      whereClause.location = { equals: String(location) };
-    }
-    
-    if (jobType) {
-      whereClause.jobType = { equals: jobType as JobType };
-    }
-    
-    if (mode) {
-      whereClause.mode = { equals: mode as InternshipMode };
-    }
-
+    // Fetch all job postings from the database
     const jobs = await prisma.jobPosting.findMany({
-      where: whereClause,
       orderBy: { createdAt: "desc" },
     });
 
-    res.json(jobs);
+    // Return the jobs
+    res.status(200).json({
+      success: true,
+      count: jobs.length,
+      data: jobs,
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch jobs" });
+    console.error("Error fetching jobs:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch jobs",
+    });
   }
 };
 
