@@ -62,9 +62,10 @@ export const createJob = async (req: Request, res: Response) => {
 //     res.status(500).json({ error: "Failed to fetch jobs" });
 //   }
 // };
-export const getJobs = async ( res: Response) => {
+export const getJobs = async ( req:Request,res: Response) => {
   try {
     // Fetch all job postings from the database
+    console.log(req);
     const jobs = await prisma.jobPosting.findMany({
       orderBy: { createdAt: "desc" },
     });
