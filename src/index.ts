@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 
 
 import signupRoutes from "./Routes/signup.routes.ts";
@@ -16,11 +17,18 @@ import fileRouter from "./Routes/fileDetails.ts";
 import preferenceRouter from "./Routes/personalDetails.ts";
 import mlRoute from "./Routes/ml.routes.ts"
 
+
 dotenv.config();
 
 const port: string = process.env.PORT || "3000";
 const app = express();
 app.use(express.json());
+dotenv.config();
+
+app.use(cors({
+    origin: process.env.CLIENT_URL
+}))
+
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -40,5 +48,5 @@ app.use("/api/file", fileRouter);
 app.use("api/preference", preferenceRouter);
 
 app.listen(port, () => {
-  console.log(`server is listening at ${port} }`);
+  console.log(`server is listening at ${port}`);
 });

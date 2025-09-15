@@ -19,7 +19,7 @@ const authController=asyncHandler(async (req:Request<{}, {}, loginSchema>,res:Re
     }
 });
     if(!user){
-        throw new ApiError(404,"User doesn't registered");
+        throw new ApiError(404,"User isn't registered");
     }
     const isPasswordCorrect=await bcrypt.compare(password,user.password!);
     if(!isPasswordCorrect){
