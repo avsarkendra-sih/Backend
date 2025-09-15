@@ -41,11 +41,7 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-<<<<<<< HEAD
-    "allowImportingTsExtensions":true,
-=======
-    "allowImportingTsExtensions": true ,
->>>>>>> 222ff8d8a571eec3055de47039da68539ec5b5a2
+    "allowImportingTsExtensions": true,
     "noEmit": true
   }
 }
