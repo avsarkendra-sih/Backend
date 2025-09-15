@@ -35,6 +35,8 @@ model User {
 model PersonalInfo {
   id                  String   @id @default(cuid())
   userId              String   @unique
+  name                String   
+  email               String
   user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   gender              Gender?
   mobileNumber        String
