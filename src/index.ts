@@ -8,16 +8,12 @@ import projectRouter from "./Routes/projectDetails.ts"
 import achievementRouter from "./Routes/achievementDetails.ts"
 import fileRouter from "./Routes/fileDetails.ts"
 import preferenceRouter from "./Routes/personalDetails.ts"
-
-
 dotenv.config()
 const app=express();
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 const port:string=process.env.PORT || "3000";
-
-
 app.use("/api/personal",personalRouter)
 app.use("/api/academic",academicRouter)
 app.use("api/skill",skillRouter)
