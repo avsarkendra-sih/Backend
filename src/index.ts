@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 
 import signupRoutes from "./Routes/signup.routes.ts";
 import authRoutes from "./Routes/auth.routes.ts";
@@ -14,6 +15,7 @@ import achievementRouter from "./Routes/achievementDetails.ts";
 import fileRouter from "./Routes/fileDetails.ts";
 import preferenceRouter from "./Routes/personalDetails.ts";
 
+
 dotenv.config();
 
 const app = express();
@@ -23,6 +25,10 @@ app.use("/api/v1/auth", authRoutes);
 app.use("api/v1/joboperation", jobOperation);
 app.use("api/v1/oauth", oauth);
 dotenv.config();
+
+app.use(cors({
+    origin: process.env.CLIENT_URL
+}))
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,5 +44,5 @@ app.use("/api/file", fileRouter);
 app.use("api/preference", preferenceRouter);
 
 app.listen(port, () => {
-  console.log(`server is listening at ${port} }`);
+  console.log(`server is listening at ${port}`);
 });

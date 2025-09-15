@@ -3,10 +3,12 @@ import type { Request, Response } from "express";
 
 // jaldi se personal info kar de
 export const createPersonalInfo = async (req: Request, res: Response) => {
+  console.log(req.body);
+  
   try {
     const user = await prisma.user.findFirst({
       where: {
-        name: req.body.fullname,
+        name: req.body.fullName,
         email: req.body.email,
       },
     });

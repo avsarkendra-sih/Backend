@@ -23,7 +23,7 @@ model User {
   skills        Skill[]
   certifications Certification[]
   projects      Project[]
-  // achievements  Achievement[]
+  achievements  Achievement[]
   fileUploads   FileUpload[]
   preference    Preference?
   createdAt     DateTime  @default(now())
@@ -35,8 +35,6 @@ model User {
 model PersonalInfo {
   id                  String   @id @default(cuid())
   userId              String   @unique
-  name                String   
-  email               String
   user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   gender              Gender?
   mobileNumber        String
@@ -118,15 +116,15 @@ model Project {
   updatedAt   DateTime @updatedAt
 }
 
-// model Achievement {
-//   id    String @id @default(cuid())
-//   userId String
-//   user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   description String
-//   certificationUrl String?
-//   name String 
-//   date DateTime
-// }
+model Achievement {
+  id    String @id @default(cuid())
+  userId String
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  description String
+  certificationUrl String?
+  name String 
+  date DateTime
+}
 
 model FileUpload {
   id         String @id @default(cuid())
