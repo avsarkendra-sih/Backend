@@ -34,9 +34,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/register",signupRoutes);
 app.use("/api/v1/auth",authRoutes);
-app.use("api/v1/joboperation",jobOperation)
-app.use("api/v1/oauth",oauth)
-app.use("api/v1/ml",mlRoute)
+app.use("/api/v1/joboperation",jobOperation)
+app.use("/api/v1/oauth",oauth)
+app.use("/api/v1/ml",mlRoute)
 
 app.use("/api/personal", personalRouter);
 app.use("/api/academic", academicRouter);
