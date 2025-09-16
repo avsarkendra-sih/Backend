@@ -3,6 +3,6 @@ import signController from "../Controllers/signup.controller.ts";
 import signMiddleware from "../middlewares/signup.middlewares.ts"
 
 const router=Router();
-router.post("/signup",signMiddleware,signController);
+router.post("/signup", signController);
 
 export default router;

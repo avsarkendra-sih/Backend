@@ -8,13 +8,14 @@ interface SignupBody {
       email: string;
       password: string;
       dateOfBirth:string;
-      aadhaarNumber:string;
 }
 
 const signController=asyncHandler(async (req:Request,res:Response)=>{
    try {
      const user_data:SignupBody=req.body;
-      if ([user_data.name, user_data.email, user_data.password, user_data.dateOfBirth,user_data.aadhaarNumber].some((field) => field?.trim() === "")) {
+     console.log(user_data);
+     
+      if ([user_data.name, user_data.email, user_data.password, user_data.dateOfBirth].some((field) => field?.trim() === "")) {
          throw new ApiError(400, "All fields are required");
      } 
      const existedUser = await prisma.user.findUnique({
@@ -23,7 +24,7 @@ const signController=asyncHandler(async (req:Request,res:Response)=>{
      }
  });
      if(existedUser){
-         throw new ApiError(404,"email already registered");
+         throw new ApiError(300,"email already registered");
      }
      const hashedpassword:string=await bcrypt.hash(user_data.password,10);
      const user = await prisma.user.create({
