@@ -1,6 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
+<<<<<<< HEAD
 import cors from 'cors'
+=======
+import cors from "cors";
+
+
+>>>>>>> 878573930604c335dee36ddc2a5f460b7fb44ced
 import signupRoutes from "./Routes/signup.routes.ts";
 import authRoutes from "./Routes/auth.routes.ts";
 import jobOperation from "./Routes/job.routes.ts";
@@ -13,10 +19,12 @@ import projectRouter from "./Routes/projectDetails.ts";
 import achievementRouter from "./Routes/achievementDetails.ts";
 import fileRouter from "./Routes/fileDetails.ts";
 import preferenceRouter from "./Routes/personalDetails.ts";
+import mlRoute from "./Routes/ml.routes.ts"
 
 
 dotenv.config();
 
+const port: string = process.env.PORT || "3000";
 const app = express();
 app.use(cors({
   origin: "http://localhost:5173", // must match frontend origin
@@ -24,12 +32,15 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+<<<<<<< HEAD
 
 
 app.use("/api/v1/register", signupRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("api/v1/joboperation", jobOperation);
 app.use("api/v1/oauth", oauth);
+=======
+>>>>>>> 878573930604c335dee36ddc2a5f460b7fb44ced
 dotenv.config();
 
 // app.options("*", cors({
@@ -39,7 +50,19 @@ dotenv.config();
 // }));
 // app.use(express.urlencoded({ extended: true }));
 
+<<<<<<< HEAD
 const port = process.env.PORT || 5000;
+=======
+app.use(express.urlencoded({ extended: true }));
+
+
+app.use("/api/v1/register",signupRoutes);
+app.use("/api/v1/auth",authRoutes);
+app.use("api/v1/joboperation",jobOperation)
+app.use("api/v1/oauth",oauth)
+app.use("api/v1/ml",mlRoute)
+
+>>>>>>> 878573930604c335dee36ddc2a5f460b7fb44ced
 app.use("/api/personal", personalRouter);
 app.use("/api/academic", academicRouter);
 app.use("api/skill", skillRouter);
